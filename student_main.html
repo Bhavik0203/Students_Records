@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Registration Form</title>
+    <style>
+      .main {
+        display: flex;
+        flex-direction: row;
+        gap: 50px;
+        margin: 20px 60px;
+      }
+        .studentForm {
+        text-align: center;
+        color: white;
+        height: 40px;
+        width: 200px;
+        margin-bottom: 10px;
+        padding-bottom: 10px;
+        font-weight: bold;
+        font-size: small;
+        }
+
+        .studentForm1 {
+        height: auto;
+        color: white;
+        width: 210px;
+        padding: 10px;
+        border: 1px solid rgb(1, 41, 11);
+        font-weight: bold;
+        font-size: small;
+        background-color: rgb(0, 0, 0);
+      }
+
+      #stdName,#stdAge ,#marks1 , #marks2,#marks3,#marks4,#marks5 {
+        background-color: rgb(253, 255, 255);
+        border: 1px solid rgb(255, 255, 255);
+        border-radius: 5px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
+      #stdName:hover,#stdAge:hover ,#marks1:hover , #marks2:hover,#marks3:hover,#marks4:hover,#marks5:hover {
+        background-color: rgb(255, 238, 238);
+        border: 1px solid black;
+        border-radius: 5px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
+     
+      #btn_submit {
+        width: 210px;
+        height: 20px;
+        background-color: rgb(231, 176, 25);
+        border: 1px solid black;
+        border-radius: 5px;
+        margin-top: 10px;
+        margin-bottom: 5px;
+      }
+      #btn_submit:hover{
+        width: 210px;
+        height: 20px;
+        background-color: rgb(228, 202, 132);
+        border: 1px solid black;
+        border-radius: 5px;
+        margin-top: 10px;
+        margin-bottom: 5px;
+      }
+      #btn_clear {
+        width: 210px;
+        height: 20px;
+        background-color: black;
+        color: white;
+        border-radius: 5px;
+        /* margin-top: 10px; */
+        margin-bottom: 5px;
+      }
+      #btn_clear:hover {
+        width: 210px;
+        height: 20px;
+        background-color: rgb(168, 164, 164);
+        color: white;
+        border-radius: 5px;
+        /* margin-top: 10px; */
+        margin-bottom: 5px;
+      }
+      .studentForm2 {
+        width: 1000px;
+        height: auto;
+        background-color: black;
+        color: white;
+      }
+      h1{
+        padding-left: 20px;
+      }
+      table {
+            /* border-collapse: collapse; */
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: center;
+            padding: 5px;
+        }
+      
+    </style>
+  </head>
+  
+  <script>
+    var students = [];
+    var selectedStudentIndex = -1; // To keep track of the selected student for updating
+
+    function submit() {
+        // Get form values
+        var name = document.getElementById('stdName').value;
+        var age = document.getElementById('stdAge').value;
+        var marks1 = document.getElementById('marks1').value;
+        var marks2 = document.getElementById('marks2').value;
+        var marks3 = document.getElementById('marks3').value;
+        var marks4 = document.getElementById('marks4').value;
+        var marks5 = document.getElementById('marks5').value;
+
+        marks1 = Number.parseInt(marks1)
+        marks2 = Number.parseInt(marks2)
+        marks3 = Number.parseInt(marks3)
+        marks4 = Number.parseInt(marks4)
+        marks5 = Number.parseInt(marks5)
+         
+          let total = marks1 + marks2 + marks3 + marks4 + marks5;
+          total=Number.parseInt(total)
+          console.log("total",total);
+
+        // // Validate input
+        // if (!name || !age || !marks || marks.length !== 5) {
+        //     alert('Please enter valid details.');
+        //     return;
+        // }
+        console.log("777766667777")
+          function percentage(n1, n2, n3, n4, n5){
+      var x = n1 + n2 + n3 + n4 + n5;
+      var z = x / 500 * 100
+      return z;
+    }
+    
+    var percentage = percentage(marks1, marks2, marks3, marks4, marks5)
+    //console.log("per1" , percentage);
+    console.log("per2" + percentage);
+    const division = getDivision(percentage);
+
+    
+
+    //document.write("per" + percentage + "%")
+        // Create a student object
+        let student = {
+            name: name,
+            age: age,
+            marks1: marks1,
+            marks2: marks2,
+            marks3: marks3,
+            marks4: marks4,
+            marks5: marks5,
+            total: total,
+            percentage: percentage,
+            division: division
+        };
+        console.log("per88888882" + percentage);
+        console.log("Division: " + division);
+        if (selectedStudentIndex === -1) {
+            // Add the student to the array
+            students.push(student);
+        } else {
+            // Update the existing student
+            students[selectedStudentIndex] = student;
+            // Reset the selected student index after updating
+            selectedStudentIndex = -1;
+        }
+
+        // Update the table
+        displayStudents();
+
+        // Clear the form
+        // document.getElementById('studentForm1').reset();
+    }
+    function getDivision(percentage) {
+        if (percentage >= 80) {
+          return "Distinction";
+        } else if (percentage >= 60) {
+          return "First Division";
+        } else if (percentage >= 40) {
+          return "Second Division";
+        } else {
+          return "Third Division";
+        }
+      }
+
+    function displayStudents() {
+        var tableBody = document.getElementById('studentTableBody');
+        tableBody.innerHTML = '';
+
+        for (var i = 0; i < students.length; i++) {
+            var row = tableBody.insertRow(i);
+            var cellName = row.insertCell(0);
+            var cellAge = row.insertCell(1);
+            var cellMarks1 = row.insertCell(2);
+            var cellMarks2 = row.insertCell(3);
+            var cellMarks3 = row.insertCell(4);
+            var cellMarks4 = row.insertCell(5);
+            var cellMarks5 = row.insertCell(6);
+            var cellTotal = row.insertCell(7);
+            var cellPer = row.insertCell(8);
+            var cellDiv = row.insertCell(9);
+            var cellAction = row.insertCell(10);
+            
+            cellName.innerHTML = students[i].name;
+            cellAge.innerHTML = students[i].age;
+            cellMarks1.innerHTML = students[i].marks1;
+            cellMarks2.innerHTML = students[i].marks2;
+            cellMarks3.innerHTML = students[i].marks3;
+            cellMarks4.innerHTML = students[i].marks4;
+            cellMarks5.innerHTML = students[i].marks5;
+            cellTotal.innerHTML = students[i].total;
+            cellPer.innerHTML = students[i].percentage;
+            cellDiv.innerHTML = students[i].division;
+            
+            // Add update and delete buttons with onclick events
+            // var updateButton = document.createElement('button');
+            // updateButton.innerHTML = 'Update';
+            // updateButton.onclick = (function (index) {
+            //     return function () {
+            //         setUpdateMode(index);
+            //     };
+            // })(i);
+            // cellAction.appendChild(updateButton);
+
+            // var deleteButton = document.createElement('button');
+            // deleteButton.innerHTML = 'Delete';
+            // deleteButton.onclick = (function (index) {
+            //     return function () {
+            //         deleteStudent(index);
+            //     };
+            // })(i);
+            // cellAction.appendChild(deleteButton);
+            var updateButton = document.createElement('button');
+            updateButton.innerHTML = 'Update';
+            updateButton.onclick = (function (index) {
+                return function () {
+                  alert(" what to update..?")
+                    setUpdateMode(index);
+                };
+            })(i);
+            cellAction.appendChild(updateButton);
+            console.log("33333")
+            var deleteButton = document.createElement('button');
+            deleteButton.innerHTML = 'Delete';
+            deleteButton.onclick = (function (index) {
+
+              
+                return function () {
+                  alert("Record will be deleted permanently")
+                    deleteStudent(index);
+                };
+            })(i);
+            cellAction.appendChild(deleteButton);
+        }
+    }
+
+    function setUpdateMode(index) {
+        // Set the form fields to the selected student's details
+        document.getElementById('stdName').value = students[index].name;
+        document.getElementById('stdAge').value = students[index].age;
+        document.getElementById('marks1').value = students[index].marks1;
+        document.getElementById('marks2').value = students[index].marks2;
+        document.getElementById('marks3').value = students[index].marks3;
+        document.getElementById('marks4').value = students[index].marks4;
+        document.getElementById('marks5').value = students[index].marks5;
+
+        // Set the selected student index for updating
+        selectedStudentIndex = index;
+    }
+
+    function deleteStudent(index) {
+        // Remove the student from the array
+        students.splice(index, 1);
+
+        // Reset the selected student index after deletion
+        selectedStudentIndex = -1;
+
+        // Update the table
+        displayStudents();
+    }
+</script>
+
+  <body>
+    <div class="main">
+      
+    <div class="studentForm1">
+        <h1>Enter Sudent Record:</h1>
+    
+      <!-- <div class="stdName"> -->
+        Student Name:
+        <input id="stdName" type="text" size="25" />
+      <!-- </div> -->
+
+      <!-- <div class="stdAge"> -->
+        Student Age: 
+        <input id="stdAge" type="text" size="25" />
+      <!-- </div> -->
+      
+      <!-- <div class="marks1"> -->
+        Marks 1: 
+        <input id="marks1" type="text" size="25" />
+      <!-- </div> -->
+
+      <!-- <div class="marks2"> -->
+        Marks 2: 
+        <input id="marks2" type="text" size="25" />
+      <!-- </div> -->
+
+      <!-- <div class="marks3"> -->
+        Marks 3: 
+        <input id="marks3" type="text" size="25" />
+      <!-- </div> -->
+
+      <!-- <div class="marks4"> -->
+        Marks 4: 
+        <input id="marks4" type="text" size="25" />
+      <!-- </div> -->
+
+      <!-- <div class="marks5"> -->
+        Marks 5: 
+        <input id="marks5" type="text" size="25" />
+      <!-- </div> -->
+
+      <button type="button" id="btn_submit" onclick="submit()">Submit</button> 
+      <!-- <input type="reset" id="btn_clear" name="btn_clear" value="Clear" />  -->
+    </div>
+
+    <div class="studentForm2">
+        <h1>Student List</h1>
+        <table id="studentTable">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Marks1</th>
+                <th>Marks2</th>
+                <th>Marks3</th>
+                <th>Marks4</th>
+                <th>Marks5</th>
+                <th>Total</th>
+                <th>Percentage</th>
+                <th>Division</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody id="studentTableBody">
+            <!-- Student details will be dynamically added here -->
+            </tbody>
+        </table>
+
+    </div>
+    </div>
+  </body>
+</html>
